@@ -1,13 +1,16 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
+
 class Post(models.Model):
     title = models.CharField(max_length=75)
-    body  = models.TextField(default="")                    
-    slug  = models.SlugField(default="")
-    date  = models.DateTimeField(auto_now_add=True)  
-    banner = models.ImageField(default="fallback.jpg", blank=True)
+    body = models.TextField()
+    slug = models.SlugField(unique=True)
+    date = models.DateTimeField(auto_now_add=True)
+    banner = models.ImageField(default="fallback.png", blank=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
 
     def __str__(self):
-        return f" {self.title} -  {self.slug} - {self.date}"
+        return self.title
